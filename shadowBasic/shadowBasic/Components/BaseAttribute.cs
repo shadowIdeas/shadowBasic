@@ -28,5 +28,13 @@ namespace shadowBasic.Components
 
             return _isAsync == true;
         }
+
+        public bool IsActive(KeybinderCore core)
+        {
+            if (!_isAffectedByPause)
+                return false;
+
+            return !core.Paused;
+        }
     }
 }

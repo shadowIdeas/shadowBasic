@@ -228,7 +228,7 @@ namespace shadowBasic.Components.Key
                 {
                     if (keyAttribute.Key == key && keyAttribute.ModifierKey == modifierKey)
                     {
-                        if (ConditionalAttribute.CanExecute(conditionalAttributes))
+                        if (keyAttribute.IsActive(Core) && ConditionalAttribute.CanExecute(conditionalAttributes))
                         {
                             if (keyAttribute.IsAsync(method))
                                 Task.Run(async () => await method.InvokeAsync(collection, null));

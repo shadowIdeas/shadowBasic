@@ -107,7 +107,7 @@ namespace shadowBasic.Components.Chat
 
                 foreach (var chatAttribute in chatAttributes)
                 {
-                    if(ConditionalAttribute.CanExecute(conditionalAttributes))
+                    if(chatAttribute.IsActive(Core) && ConditionalAttribute.CanExecute(conditionalAttributes))
                     {
                         var match = Regex.Match(message, $"^{chatAttribute.Regex}");
                         if (match.Success)

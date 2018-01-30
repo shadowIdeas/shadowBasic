@@ -12,7 +12,7 @@ namespace shadowBasic.Components.Text
         private readonly List<ITextCollection> _collections;
         private readonly List<Tuple<ITextCollection, MethodInfo>> _textBindMethods;
 
-        public TextComponent(KeybinderCore core, params ITextCollection[] collections) 
+        public TextComponent(KeybinderCore core, params ITextCollection[] collections)
             : base(core)
         {
             _collections = new List<ITextCollection>(collections);
@@ -68,17 +68,15 @@ namespace shadowBasic.Components.Text
                 foreach (var textAttribute in textAttributes)
                 {
                     if (String.Compare(textAttribute.Command, args[0], true) == 0)
-
                     {
-                        if (ConditionalAttribute.CanExecute(conditionalAttributes))
-
+                        if (textAttribute.IsActive(Core) && ConditionalAttribute.CanExecute(conditionalAttributes))
                         {
                             var argsList = new List<string>(args.Skip(1));
                             if (argsList.Count >= textAttribute.ArgumentCount)
                             {
                                 if (method.ReturnType == typeof(bool) || method.ReturnType == typeof(Task<bool>))
                                 {
-                                    if(textAttribute.IsAsync(method))
+                                    if (textAttribute.IsAsync(method))
                                     {
                                         Task.Run(async () =>
                                         {
