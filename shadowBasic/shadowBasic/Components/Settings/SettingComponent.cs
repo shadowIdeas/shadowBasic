@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace shadowBasic.Components.Settings
 {
-    class SettingComponent : Component
+    public class SettingComponent : Component
     {
         private Dictionary<Tuple<Type, string>, object> _permanentSettings;
         private Dictionary<Tuple<Type, string>, object> _temporarySettings;
@@ -16,7 +16,17 @@ namespace shadowBasic.Components.Settings
             _temporarySettings = new Dictionary<Tuple<Type, string>, object>();
         }
 
-        public override void InitializeAssembly(Assembly assembly)
+        public override void Start()
+        {
+
+        }
+
+        public override void Stop()
+        {
+
+        }
+
+        protected override void InitializeAssembly(Assembly assembly)
         {
         }
 

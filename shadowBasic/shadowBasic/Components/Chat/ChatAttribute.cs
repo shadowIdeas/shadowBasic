@@ -2,10 +2,14 @@
 
 namespace shadowBasic.Components.Chat
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class ChatAttribute : Attribute
+    public class ChatAttribute : BaseAttribute
     {
         private readonly string _regex;
+
+        public string Regex
+        {
+            get { return _regex; }
+        }
 
         public ChatAttribute(string regex)
         {
