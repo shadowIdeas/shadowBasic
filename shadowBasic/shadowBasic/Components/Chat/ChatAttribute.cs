@@ -11,7 +11,8 @@ namespace shadowBasic.Components.Chat
             get { return _regex; }
         }
 
-        public ChatAttribute(string regex)
+        public ChatAttribute(string regex, bool isAffectedByPause = true)
+            : base(isAffectedByPause)
         {
             _regex = regex;
         }

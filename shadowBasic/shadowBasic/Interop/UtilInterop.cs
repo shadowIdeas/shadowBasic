@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace shadowBasic.Interop
 {
-    internal static class UtilInterop
+    public static class UtilInterop
     {
-        public enum WindowMessage : int
+        internal enum WindowMessage : int
         {
             WM_QUIT = 0x0012,
             WM_KEYDOWN = 0x0100,
@@ -213,7 +213,7 @@ namespace shadowBasic.Interop
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct INPUT
+        internal struct INPUT
         {
             public INPUTTYPE type;
             public INPUT_UNION union;
@@ -237,7 +237,7 @@ namespace shadowBasic.Interop
 
 
         [StructLayout(LayoutKind.Explicit)]
-        public struct INPUT_UNION
+        internal struct INPUT_UNION
         {
             [FieldOffset(0)]
             public KEYBDINPUT ki;
@@ -250,7 +250,7 @@ namespace shadowBasic.Interop
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct KEYBDINPUT
+        internal struct KEYBDINPUT
         {
             public ushort virtualKey;
             public ushort scanCode;
@@ -261,7 +261,7 @@ namespace shadowBasic.Interop
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MOUSEINPUT
+        internal struct MOUSEINPUT
         {
             public int dx;
             public int dy;
@@ -272,43 +272,43 @@ namespace shadowBasic.Interop
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct HARDWAREINPUT
+        internal struct HARDWAREINPUT
         {
             public int uMsg;
             public short wParam;
             public short lParam;
         }
 
-        public enum INPUTTYPE : uint
+        internal enum INPUTTYPE : uint
         {
             Keyboard = 1
         }
 
-        public enum KEYEVENTF : uint
+        internal enum KEYEVENTF : uint
         {
             KeyUp = 2
         }
 
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetModuleHandle(string moduleName);
+        internal static extern IntPtr GetModuleHandle(string moduleName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
-        public static extern IntPtr GetProcAddress(IntPtr module, string functionName);
+        internal static extern IntPtr GetProcAddress(IntPtr module, string functionName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr LoadLibrary(string functionName);
+        internal static extern IntPtr LoadLibrary(string functionName);
 
 
         [DllImport("User32.dll")]
-        public static extern Int16 GetKeyState(int virtualKey);
+        internal static extern Int16 GetKeyState(int virtualKey);
 
         [DllImport("User32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr FindWindow(string className, string windowName);
+        internal static extern IntPtr FindWindow(string className, string windowName);
 
         [DllImport("User32.dll")]
-        public static extern IntPtr GetForegroundWindow();
+        internal static extern IntPtr GetForegroundWindow();
 
         [DllImport("User32.dll", SetLastError = true)]
-        public static extern uint SendInput(int nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] inputs, int cbSize);
+        internal static extern uint SendInput(int nInputs, [MarshalAs(UnmanagedType.LPArray), In] INPUT[] inputs, int cbSize);
     }
 }

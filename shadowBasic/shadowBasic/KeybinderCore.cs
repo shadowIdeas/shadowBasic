@@ -80,6 +80,9 @@ namespace shadowBasic
         /// </summary>
         public void Start()
         {
+            if (_started)
+                return;
+
             if (_stopped)
                 throw new InvalidOperationException("The core cannot be restarted again. Please create a new instance.");
 
@@ -96,6 +99,9 @@ namespace shadowBasic
         /// </summary>
         public void Stop()
         {
+            if (_stopped)
+                return;
+
             _started = false;
             _stopped = true;
 
@@ -103,14 +109,6 @@ namespace shadowBasic
                 component.Stop();
 
             _processWatcher.Stop();
-        }
-
-        /// <summary>
-        /// Pauses the core.
-        /// </summary>
-        public void Pause()
-        {
-
         }
 
         /// <summary>
@@ -124,6 +122,11 @@ namespace shadowBasic
                 throw new ArgumentException("Component is already registered.", nameof(component));
 
             _components.Add(component);
+        }
+
+        public T GetComponent<T>() where T : Component
+        {
+            return (T)_components.Find(c => c.GetType() == typeof(T));
         }
 
         private void ProcessStarted(object sender, EventArgs e)

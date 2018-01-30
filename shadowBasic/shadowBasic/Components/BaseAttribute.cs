@@ -8,7 +8,18 @@ namespace shadowBasic.Components
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public abstract class BaseAttribute : Attribute
     {
+        private readonly bool _isAffectedByPause;
         private bool? _isAsync;
+
+        public bool IsAffectedByPause
+        {
+            get { return _isAffectedByPause; }
+        }
+
+        public BaseAttribute(bool isAffectedByPause)
+        {
+            _isAffectedByPause = isAffectedByPause;
+        }
 
         public bool IsAsync(MethodInfo method)
         {

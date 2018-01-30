@@ -1,5 +1,7 @@
 ﻿using shadowBasic.Components.Settings;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace shadowBasic.Components
 {
@@ -19,6 +21,20 @@ namespace shadowBasic.Components
         public bool ActivationConditionState
         {
             get { return _activationConditionState; }
+        }
+
+        public static bool CanExecute(IEnumerable<ConditionalAttribute> conditionalAttributes)
+        {
+            if (conditionalAttributes.Count() == 0)
+                return true;
+
+            foreach (var attribute in conditionalAttributes)
+            {
+                if (attribute.CanExecute())
+                    return true;
+            }
+
+            return false;
         }
 
         public ConditionalAttribute(string activationCondition = "", bool activationConditionState = true)

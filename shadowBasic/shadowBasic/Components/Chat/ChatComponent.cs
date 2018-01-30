@@ -13,19 +13,21 @@ namespace shadowBasic.Components.Chat
     {
         private bool _disposed;
 
-        private readonly List<MethodInfo> _chatBindMethods;
+        private readonly List<IChatCollection> _collections;
+        private readonly List<Tuple<IChatCollection, MethodInfo>> _chatBindMethods;
         private readonly string _chatLogPath;
 
         private FileInfo _fileInfo;
         private StreamReader _streamReader;
         private FileSystemWatcher _fileSystemWatcher;
 
-        public ChatComponent(KeybinderCore core)
+        public ChatComponent(KeybinderCore core, params IChatCollection[] collections)
             : base(core)
         {
             _disposed = false;
 
-            _chatBindMethods = new List<MethodInfo>();
+            _collections = new List<IChatCollection>(collections);
+            _chatBindMethods = new List<Tuple<IChatCollection, MethodInfo>>();
             _chatLogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GTA San Andreas User Files\\SAMP\\");
         }
 
@@ -52,6 +54,17 @@ namespace shadowBasic.Components.Chat
 
         public override void Start()
         {
+            foreach (var collection in _collections)
+            {
+                _chatBindMethods.AddRange(new List<MethodInfo>(collection
+                    .GetType()
+                    .GetMethods()
+                    .Where(method => !method.IsStatic && method.CustomAttributes
+                    .Where(attribute => attribute.AttributeType == typeof(ChatAttribute))
+                    .Count() != 0))
+                    .Select(method => new Tuple<IChatCollection, MethodInfo>(collection, method)));
+            }
+
             _fileInfo = new FileInfo(Path.Combine(_chatLogPath, "chatlog.txt"));
 
             _streamReader = new StreamReader(new FileStream(Path.Combine(_chatLogPath, "chatlog.txt"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default, true);
@@ -61,8 +74,6 @@ namespace shadowBasic.Components.Chat
             _fileSystemWatcher.Changed += ChatLogChanged;
             _fileSystemWatcher.EnableRaisingEvents = true;
         }
-
-        
 
         public override void Stop()
         {
@@ -75,23 +86,28 @@ namespace shadowBasic.Components.Chat
             foreach (var type in assembly.GetTypes())
             {
                 _chatBindMethods.AddRange(new List<MethodInfo>(type
-                .GetMethods()
-                .Where(method => method.CustomAttributes
-                .Where(attribute => attribute.AttributeType == typeof(ChatAttribute))
-                .Count() != 0)));
+                    .GetMethods()
+                    .Where(method => method.IsStatic && method.CustomAttributes
+                    .Where(attribute => attribute.AttributeType == typeof(ChatAttribute))
+                    .Count() != 0))
+                    .Select(method => new Tuple<IChatCollection, MethodInfo>(null, method)));
             }
         }
 
         public bool CheckCall(string message)
         {
-            foreach (var method in _chatBindMethods)
+            bool found = false;
+
+            foreach (var tuple in _chatBindMethods)
             {
+                var collection = tuple.Item1;
+                var method = tuple.Item2;
                 var chatAttributes = method.GetCustomAttributes<ChatAttribute>();
                 var conditionalAttributes = method.GetCustomAttributes<ConditionalAttribute>();
 
                 foreach (var chatAttribute in chatAttributes)
                 {
-                    if(CanExecute(conditionalAttributes))
+                    if(ConditionalAttribute.CanExecute(conditionalAttributes))
                     {
                         var match = Regex.Match(message, $"^{chatAttribute.Regex}");
                         if (match.Success)
@@ -101,17 +117,17 @@ namespace shadowBasic.Components.Chat
                                 groups.Add(match.Groups[i].Value);
 
                             if (chatAttribute.IsAsync(method))
-                                Task.Run(async () => await method.InvokeAsync(null, new object[] { groups.ToArray() }));
+                                Task.Run(async () => await method.InvokeAsync(collection, new object[] { groups.ToArray() }));
                             else
-                                method.Invoke(null, new object[] { groups.ToArray() });
+                                method.Invoke(collection, new object[] { groups.ToArray() });
 
-                            return true;
+                            found = true;
                         }
                     }
                 }
             }
 
-            return false;
+            return found;
         }
 
         private void ChatLogChanged(object sender, FileSystemEventArgs e)
@@ -136,20 +152,6 @@ namespace shadowBasic.Components.Chat
                     }
                 }
             }
-        }
-
-        private bool CanExecute(IEnumerable<ConditionalAttribute> conditionalAttributes)
-        {
-            if (conditionalAttributes.Count() == 0)
-                return true;
-
-            foreach (var attribute in conditionalAttributes)
-            {
-                if (attribute.CanExecute())
-                    return true;
-            }
-
-            return false;
         }
 
         private void RefreshFile()
