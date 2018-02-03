@@ -81,6 +81,7 @@
     <Compile Include="BasicAPI\API.cs" />
     <Compile Include="BasicAPI\IAPIChat.cs" />
     <Compile Include="BasicAPI\IAPIDialog.cs" />
+    <Compile Include="BasicAPI\IAPIOverlay.cs" />
     <Compile Include="BasicAPI\IAPIPlayer.cs" />
     <Compile Include="BasicAPI\IAPISAMPPlayer.cs" />
     <Compile Include="BasicAPI\IAPISAMPVehicle.cs" />

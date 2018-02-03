@@ -4,6 +4,7 @@
     {
         public static API Instance { get; internal set; }
 
+        public IAPIOverlay Overlay { get; set; }
         public IAPIChat Chat { get; set; }
         public IAPIDialog Dialog { get; set; }
         public IAPIPlayer Player { get; set; }
