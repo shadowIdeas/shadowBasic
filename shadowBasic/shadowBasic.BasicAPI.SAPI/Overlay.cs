@@ -76,7 +76,7 @@ namespace shadowBasic.BasicAPI.SAPI
 
         public void TextSetMaxHeight(int id, int maxHeight)
         {
-            TextAPI.Instance.SetMaxWidth(id, maxHeight);
+            TextAPI.Instance.SetMaxHeight(id, maxHeight);
         }
 
         public void TextSetMaxWidth(int id, int maxWidth)
