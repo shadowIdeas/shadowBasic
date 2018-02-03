@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace shadowBasic.Components.Settings
 {
-    internal class DefaultProvider : ISettingsProvider
+    public class DefaultProvider : ISettingsProvider
     {
         public async Task<Dictionary<Tuple<Type, string>, object>> LoadAsync()
         {
@@ -17,9 +18,13 @@ namespace shadowBasic.Components.Settings
 
             using (var reader = new StreamReader("Settings.dat"))
             {
-                string line;
-                while ((line = await reader.ReadLineAsync()) != null)
-                    ProcessSettingLine(line);
+                var content = await reader.ReadToEndAsync();
+                var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
+                foreach (var item in dictionary)
+                {
+                    var tuple = JsonConvert.DeserializeObject<Tuple<Type, string>>(item.Key);
+                    settings.Add(tuple, item.Value);
+                }
             }
 
             return settings;
@@ -27,7 +32,16 @@ namespace shadowBasic.Components.Settings
 
         public async Task SaveAsync(Dictionary<Tuple<Type, string>, object> settings)
         {
+            var dictionary = new Dictionary<string, object>();
+            foreach (var item in settings)
+            {
+                var key = JsonConvert.SerializeObject(item.Key);
+                var value = JsonConvert.SerializeObject(item.Value);
+                dictionary.Add(key, value);
+            }
 
+            using (var writer = new StreamWriter(File.OpenWrite("Settings.dat")))
+                await writer.WriteAsync(JsonConvert.SerializeObject(dictionary));
         }
     }
 }

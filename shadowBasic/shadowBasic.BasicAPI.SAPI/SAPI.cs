@@ -7,6 +7,11 @@ namespace shadowBasic.BasicAPI.SAPI
         public SAPI()
         {
             Chat = new Chat();
+            Dialog = new Dialog();
+            Player = new Player();
+            Vehicle = new Vehicle();
+            SAMPPlayer = new SAMP.Player();
+            SAMPVehicle = new SAMP.Vehicle();
         }
 
         public override void Initialize()

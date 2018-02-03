@@ -69,6 +69,7 @@ namespace shadowBasic
 
             _disposed = true;
 
+            Stop();
             DisposeComponents();
         }
 
