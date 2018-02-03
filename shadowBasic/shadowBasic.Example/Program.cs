@@ -1,4 +1,5 @@
-﻿using shadowBasic.Components.Chat;
+﻿using shadowBasic.BasicAPI.SAPI;
+using shadowBasic.Components.Chat;
 using shadowBasic.Components.Key;
 using shadowBasic.Components.Text;
 using System;
@@ -15,7 +16,7 @@ namespace shadowBasic.Example
 
         static void Main(string[] args)
         {
-            using (KeybinderCore core = new KeybinderCore("rgn_ac_gta"))
+            using (KeybinderCore core = new KeybinderCore("rgn_ac_gta", new SAPI()))
             {
                 var testCollection = new TestCollection();
 

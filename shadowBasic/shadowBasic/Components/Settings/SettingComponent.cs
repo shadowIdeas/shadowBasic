@@ -6,12 +6,16 @@ namespace shadowBasic.Components.Settings
 {
     public class SettingComponent : Component
     {
+        private readonly ISettingsProvider _provider;
+
         private Dictionary<Tuple<Type, string>, object> _permanentSettings;
         private Dictionary<Tuple<Type, string>, object> _temporarySettings;
 
-        public SettingComponent(KeybinderCore core) 
+        public SettingComponent(KeybinderCore core, ISettingsProvider provider) 
             : base(core)
         {
+            _provider = provider;
+
             _permanentSettings = new Dictionary<Tuple<Type, string>, object>();
             _temporarySettings = new Dictionary<Tuple<Type, string>, object>();
         }

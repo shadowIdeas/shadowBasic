@@ -1,9 +1,4 @@
-﻿using SAPI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using shadowBasic.BasicAPI;
 
 namespace shadowBasic
 {
@@ -16,22 +11,22 @@ namespace shadowBasic
 
         public static void ShowInformation(string message)
         {
-            ChatAPI.Instance.AddMessage("{" + InformationColor + "}" + message);
+            API.Instance.Chat.AddMessage("{" + InformationColor + "}" + message);
         }
 
         public static void ShowWarning(string message)
         {
-            ChatAPI.Instance.AddMessage("{" + WarningColor + "}" + message);
+            API.Instance.Chat.AddMessage("{" + WarningColor + "}" + message);
         }
 
         public static void ShowError(string message)
         {
-            ChatAPI.Instance.AddMessage("{" + ErrorColor + "}" + message);
+            API.Instance.Chat.AddMessage("{" + ErrorColor + "}" + message);
         }
 
         public static void ShowUsage(string message)
         {
-            ChatAPI.Instance.AddMessage("{" + UsageColor + "}" + message);
+            API.Instance.Chat.AddMessage("{" + UsageColor + "}" + message);
         }
     }
 }

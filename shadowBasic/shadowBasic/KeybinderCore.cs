@@ -1,4 +1,4 @@
-﻿using SAPI;
+﻿using shadowBasic.BasicAPI;
 using shadowBasic.Components;
 using shadowBasic.Interop;
 using System;
@@ -38,7 +38,7 @@ namespace shadowBasic
         /// <summary>
         /// Initalize the core.
         /// </summary>
-        public KeybinderCore(string executeableName)
+        public KeybinderCore(string executeableName, API api)
         {
             _disposed = false;
 
@@ -49,6 +49,8 @@ namespace shadowBasic
             _components = new List<Component>();
 
             _moduleWaitRunning = false;
+
+            API.Instance = api;
 
             _processWatcher = new ProcessWatcher(executeableName);
             _processWatcher.ProcessStarted += ProcessStarted;
@@ -141,13 +143,13 @@ namespace shadowBasic
 
         private void ProcessStopped(object sender, EventArgs e)
         {
-            GeneralAPI.Instance.ResetInitialize();
+            API.Instance.Uninitialize();
             _gameRunning = false;
         }
 
         private void InitializeAPI()
         {
-            GeneralAPI.Instance.Initialize();
+            API.Instance.Initialize();
         }
 
         private void SearchAssemblies()

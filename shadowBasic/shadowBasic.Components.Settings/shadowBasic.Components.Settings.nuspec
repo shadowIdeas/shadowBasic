@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>shadowIdeas</authors>
+    <owners>DogeAmazed</owners>
+    <licenseUrl>https://github.com/shadowIdeas/shadowBasic/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/shadowIdeas/shadowBasic</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>An extension for shadowBasic to provide an built-in settings provider</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright DogeAmazed 2018</copyright>
+    <tags>SAMP Keybinder</tags>
+  </metadata>
+</package>

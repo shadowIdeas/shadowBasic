@@ -89,6 +89,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\shadowBasic.BasicAPI.SAPI\shadowBasic.BasicAPI.SAPI.csproj">
+      <Project>{83abc56e-294c-4a69-886b-b20b38309e5d}</Project>
+      <Name>shadowBasic.BasicAPI.SAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\shadowBasic.Components.Settings\shadowBasic.Components.Settings.csproj">
+      <Project>{2149e325-92f6-473a-bbe6-f03655dcd457}</Project>
+      <Name>shadowBasic.Components.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\shadowBasic\shadowBasic.csproj">
       <Project>{d6e49cf7-e465-4612-8ec8-f3afb1824359}</Project>
       <Name>shadowBasic</Name>

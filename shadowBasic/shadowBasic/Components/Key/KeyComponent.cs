@@ -1,4 +1,4 @@
-﻿using SAPI;
+﻿using shadowBasic.BasicAPI;
 using shadowBasic.Components.Text;
 using shadowBasic.Interop;
 using System;
@@ -139,7 +139,7 @@ namespace shadowBasic.Components.Key
 
                 if (action == UtilInterop.WindowMessage.WM_KEYDOWN || action == UtilInterop.WindowMessage.WM_SYSKEYDOWN)
                 {
-                    if (!ChatAPI.Instance.IsOpen() && !DialogAPI.Instance.IsOpen())
+                    if (!API.Instance.Chat.IsOpen() && !API.Instance.Dialog.IsOpen())
                     {
                         if (_keyStates.Get(key) && _keyPressedCount[key] < 2)
                         {
@@ -152,7 +152,7 @@ namespace shadowBasic.Components.Key
                 }
                 else
                 {
-                    if (action == UtilInterop.WindowMessage.WM_KEYUP && input.VirtualKeyCode == UtilInterop.Keys.VK_MENU && ChatAPI.Instance.IsOpen())
+                    if (action == UtilInterop.WindowMessage.WM_KEYUP && input.VirtualKeyCode == UtilInterop.Keys.VK_MENU && API.Instance.Chat.IsOpen())
                         _menuPressed = true;
                     else
                         _menuPressed = false;
@@ -169,7 +169,7 @@ namespace shadowBasic.Components.Key
                     }
                 }
             }
-            else if (action == UtilInterop.WindowMessage.WM_CHAR && _menuPressed && ChatAPI.Instance.IsOpen())
+            else if (action == UtilInterop.WindowMessage.WM_CHAR && _menuPressed && API.Instance.Chat.IsOpen())
             {
                 _menuPressed = false;
                 return true;
@@ -264,23 +264,23 @@ namespace shadowBasic.Components.Key
                 var key = keys.Item1;
                 var modifierKey = keys.Item2;
 
-                if (!ChatAPI.Instance.IsOpen() && !DialogAPI.Instance.IsOpen() && _keyUsed.Get((int)input.VirtualKeyCode))
+                if (!API.Instance.Chat.IsOpen() && !API.Instance.Dialog.IsOpen() && _keyUsed.Get((int)input.VirtualKeyCode))
                     return new IntPtr(1);
 
                 if (input.VirtualKeyCode == UtilInterop.Keys.VK_RETURN && (input.Flags & (0x2000 >> 8)) != 0)
                     forceProceedKey = true;
 
-                if (!ChatAPI.Instance.IsOpen() && !DialogAPI.Instance.IsOpen() && Core.IsGameActive())
+                if (!API.Instance.Chat.IsOpen() && !API.Instance.Dialog.IsOpen() && Core.IsGameActive())
                 {
                     if (input.VirtualKeyCode != UtilInterop.Keys.VK_NONE)
                     {
-                        if (!ChatAPI.Instance.IsOpen() && !ChatAPI.Instance.IsOpen())
+                        if (!API.Instance.Chat.IsOpen() && !API.Instance.Chat.IsOpen())
                             proceedKey = CheckForKeybinds(key, modifierKey);
                     }
                 }
 
 
-                if (input.VirtualKeyCode == UtilInterop.Keys.VK_RETURN && (((UtilInterop.WindowMessage)wParam == UtilInterop.WindowMessage.WM_KEYUP) || ((UtilInterop.WindowMessage)wParam == UtilInterop.WindowMessage.WM_SYSKEYDOWN)) && ChatAPI.Instance.IsOpen())
+                if (input.VirtualKeyCode == UtilInterop.Keys.VK_RETURN && (((UtilInterop.WindowMessage)wParam == UtilInterop.WindowMessage.WM_KEYUP) || ((UtilInterop.WindowMessage)wParam == UtilInterop.WindowMessage.WM_SYSKEYDOWN)) && API.Instance.Chat.IsOpen())
                     proceedKey = InvokeTextComponent();
 
                 if (forceProceedKey || proceedKey)
@@ -301,18 +301,18 @@ namespace shadowBasic.Components.Key
             if (textComponent == null)
                 return false;
 
-            var text = ChatAPI.Instance.GetText();
+            var text = API.Instance.Chat.GetText();
 
             if (textComponent.CheckCall(text))
             {
-                ChatAPI.Instance.Clear();
+                API.Instance.Chat.Clear();
 
                 if (text.Length <= 128)
-                    ChatAPI.Instance.AddBufferMessage(text);
+                    API.Instance.Chat.AddBufferMessage(text);
                 else
-                    ChatAPI.Instance.AddBufferMessage(text.Substring(0, 127));
+                    API.Instance.Chat.AddBufferMessage(text.Substring(0, 127));
 
-                ChatAPI.Instance.Toggle(false);
+                API.Instance.Chat.Toggle(false);
                 return true;
             }
 
