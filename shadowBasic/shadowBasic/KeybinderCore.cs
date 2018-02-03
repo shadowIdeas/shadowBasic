@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using shadowBasic.Components.Settings;
 
 namespace shadowBasic
 {
@@ -92,7 +94,8 @@ namespace shadowBasic
             _started = true;
 
             SearchAssemblies();
-            foreach (var component in _components)
+            
+            foreach (var component in _components.OrderByDescending(c => c is SettingComponent))
                 component.Start();
             _processWatcher.Start();
         }
@@ -108,7 +111,7 @@ namespace shadowBasic
             _started = false;
             _stopped = true;
 
-            foreach (var component in _components)
+            foreach (var component in _components.OrderBy(c => c is SettingComponent))
                 component.Stop();
 
             _processWatcher.Stop();
@@ -144,6 +147,9 @@ namespace shadowBasic
 
         private void ProcessStopped(object sender, EventArgs e)
         {
+            foreach (var component in _components)
+                component.ProcessStopped();
+
             API.Instance.Uninitialize();
             _gameRunning = false;
         }
@@ -164,7 +170,7 @@ namespace shadowBasic
 
         private void DisposeComponents()
         {
-            foreach (var component in _components)
+            foreach (var component in _components.OrderBy(c => c is SettingComponent))
             {
                 if (component is IDisposable obj)
                     obj.Dispose();
@@ -189,6 +195,9 @@ namespace shadowBasic
                             if (item.ModuleName == "samp.dll" && UtilInterop.FindWindow(null, "GTA:SA:MP") != IntPtr.Zero)
                             {
                                 InitializeAPI();
+                                foreach (var component in _components)
+                                    component.ProcessStarted();
+
                                 _moduleWaitRunning = false;
                                 _gameRunning = true;
                                 gotModule = true;

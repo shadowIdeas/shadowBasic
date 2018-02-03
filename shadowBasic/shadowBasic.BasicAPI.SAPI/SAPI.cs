@@ -6,6 +6,7 @@ namespace shadowBasic.BasicAPI.SAPI
     {
         public SAPI()
         {
+            Overlay = new Overlay();
             Chat = new Chat();
             Dialog = new Dialog();
             Player = new Player();

@@ -30,6 +30,16 @@ namespace shadowBasic.Components
             InitializeAssembly(assembly);
         }
 
+        public virtual void ProcessStarted()
+        {
+
+        }
+
+        public virtual void ProcessStopped()
+        {
+
+        }
+
         public abstract void Start();
         public abstract void Stop();
 

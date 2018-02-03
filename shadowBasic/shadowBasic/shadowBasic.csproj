@@ -97,6 +97,14 @@
     <Compile Include="Components\Key\IKeyCollection.cs" />
     <Compile Include="Components\Key\KeyAttribute.cs" />
     <Compile Include="Components\Key\KeyComponent.cs" />
+    <Compile Include="Components\Overlay\Items\OverlayItemBox.cs" />
+    <Compile Include="Components\Overlay\Items\OverlayItemText.cs" />
+    <Compile Include="Components\Overlay\MouseHook.cs" />
+    <Compile Include="Components\Overlay\Natives\Box.cs" />
+    <Compile Include="Components\Overlay\Natives\Text.cs" />
+    <Compile Include="Components\Overlay\OverlayComponent.cs" />
+    <Compile Include="Components\Overlay\OverlayEditState.cs" />
+    <Compile Include="Components\Overlay\Items\OverlayItem.cs" />
     <Compile Include="Components\Settings\ISettingsProvider.cs" />
     <Compile Include="Components\Settings\SettingComponent.cs" />
     <Compile Include="Components\Text\ITextCollection.cs" />
