@@ -6,6 +6,10 @@
 
         public IAPIChat Chat { get; set; }
         public IAPIDialog Dialog { get; set; }
+        public IAPIPlayer Player { get; set; }
+        public IAPIVehicle Vehicle { get; set; }
+        public IAPISAMPPlayer SAMPPlayer { get; set; }
+        public IAPISAMPVehicle SAMPVehicle { get; set; }
 
         /// <summary>
         /// Get called when <see cref="KeybinderCore"/> find an process.

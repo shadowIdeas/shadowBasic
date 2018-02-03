@@ -81,6 +81,10 @@
     <Compile Include="BasicAPI\API.cs" />
     <Compile Include="BasicAPI\IAPIChat.cs" />
     <Compile Include="BasicAPI\IAPIDialog.cs" />
+    <Compile Include="BasicAPI\IAPIPlayer.cs" />
+    <Compile Include="BasicAPI\IAPISAMPPlayer.cs" />
+    <Compile Include="BasicAPI\IAPISAMPVehicle.cs" />
+    <Compile Include="BasicAPI\IAPIVehicle.cs" />
     <Compile Include="ChatUtil.cs" />
     <Compile Include="Components\BaseAttribute.cs" />
     <Compile Include="Components\Chat\ChatAttribute.cs" />

@@ -15,8 +15,8 @@ namespace shadowBasic.BasicAPI
         void SelectIndex(int index);
         void SetText(string text);
         string GetText();
-        int GetID();
-        void Block(int dialogID, string text);
+        int GetId();
+        void Block(int dialogId, string text);
         string BlockGetCaption();
         string BlockGetText();
         bool BlockHasBlockedDialog();

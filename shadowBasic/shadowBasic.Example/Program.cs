@@ -1,6 +1,8 @@
-﻿using shadowBasic.BasicAPI.SAPI;
+﻿using shadowBasic.BasicAPI;
+using shadowBasic.BasicAPI.SAPI;
 using shadowBasic.Components.Chat;
 using shadowBasic.Components.Key;
+using shadowBasic.Components.Settings;
 using shadowBasic.Components.Text;
 using System;
 using System.Diagnostics;
@@ -18,15 +20,15 @@ namespace shadowBasic.Example
         {
             using (KeybinderCore core = new KeybinderCore("rgn_ac_gta", new SAPI()))
             {
-                var testCollection = new TestCollection();
+                var testCollection = new TestCollection(core);
 
                 core.AddComponent(new ChatComponent(core, testCollection));
                 core.AddComponent(new KeyComponent(core, testCollection));
                 core.AddComponent(new TextComponent(core, testCollection));
+                core.AddComponent(new SettingComponent(core, new DefaultProvider()));
                 core.Start();
 
-                while(true)
-                    Thread.Sleep(50);
+                Console.ReadLine();
             }
         }
 
@@ -40,16 +42,24 @@ namespace shadowBasic.Example
 
     class TestCollection : IChatCollection, IKeyCollection, ITextCollection
     {
+        private KeybinderCore _core;
+
+        public TestCollection(KeybinderCore core)
+        {
+            _core = core;
+        }
+
         [Chat(".*")]
         public void ChatCommand(string[] parameters)
         {
-            Debug.WriteLine(parameters[0]);
+            _core.GetComponent<SettingComponent>().SetPermanentSetting("LastChatMessage", parameters[0]);
         }
 
         [Key(Keys.VK_I)]
         public void KeyCommand()
         {
-            Debug.WriteLine("I was pressed!");
+            var lastChatMessage = _core.GetComponent<SettingComponent>().GetPermanentSetting<string>("LastChatMessage");
+            API.Instance.Chat.AddMessage($"Last Message was \"{lastChatMessage}\"");
         }
 
         [Text("/hello")]

@@ -16,27 +16,24 @@ namespace shadowBasic.Components.Settings
         {
             _provider = provider;
 
-            _permanentSettings = new Dictionary<Tuple<Type, string>, object>();
             _temporarySettings = new Dictionary<Tuple<Type, string>, object>();
         }
 
         public override void Start()
         {
+            var loadTask = _provider.LoadAsync();
+            loadTask.Wait();
 
+            _permanentSettings = loadTask.GetAwaiter().GetResult();
         }
 
         public override void Stop()
         {
-
+            _provider.SaveAsync(_permanentSettings).Wait();
         }
 
         protected override void InitializeAssembly(Assembly assembly)
         {
-        }
-
-        public virtual void LoadSettings()
-        {
-
         }
 
         public virtual T GetPermanentSetting<T>(string name)
