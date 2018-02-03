@@ -69,8 +69,8 @@
     <Reference Include="SAPI.DotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SAPI.DotNet.1.0.0\lib\net452\SAPI.DotNet.dll</HintPath>
     </Reference>
-    <Reference Include="shadowBasic, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\shadowBasic.1.0.1\lib\net461\shadowBasic.dll</HintPath>
+    <Reference Include="shadowBasic, Version=1.0.1.9, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\shadowBasic.1.0.1.9\lib\net461\shadowBasic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Chat.cs" />
     <Compile Include="Dialog.cs" />
+    <Compile Include="Overlay.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SAMP\Player.cs" />
